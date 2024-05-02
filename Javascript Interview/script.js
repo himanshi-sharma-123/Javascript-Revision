@@ -273,3 +273,59 @@ function removeWhiteSpaces(str) {
   const result = str.replace(/\s/g, "");
   return result;
 }
+
+//********************************************* CLOSURES *************************************************************/
+
+function f1() {
+  let a = 9;
+  function f2() {
+    console.log(a);
+  }
+  a = 100;
+  return f2;
+}
+
+var z1 = f1();
+console.log(z1);
+z1();
+
+//*******************************CALLBACK FUNCTION****************************** */
+
+setTimeout(function () {
+  console.log("timer");
+}, 5000);
+
+function x(y) {
+  console.log("x");
+  y();
+}
+
+x(function y() {
+  console.log("y");
+});
+
+//********************************************* ISSUES WITH CALLBACKS ****************************************************/
+
+// 1. Callback hell
+
+const cart = ["shoes", "pen", "pant", "cosmetics"];
+
+api.creteOrder(cart, function () {
+  api.proceedToPayment(function () {
+    api.showOrderSummary(function () {
+      api.update();
+    });
+  });
+});
+
+// 2. Inversion of control
+
+//************************************************* PROMISES ******************************************************/
+const promise = createOrder(cart);
+promise.then(function (orderId) {
+  proceedToPayment(orderId);
+});
+
+createOrder(cart).then(function (orderId) {
+  return proceedToPayment(orderId);
+});
